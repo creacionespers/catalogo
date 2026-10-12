@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creaciones Personalizadas - Catálogo y Pedidos</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Comfortaa y Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        brand: ['Comfortaa', 'cursive'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        pastel: {
+                            pink: '#FFA3D7',
+                            pinkLight: '#FFF0F7',
+                            pinkDark: '#E573B3',
+                            yellow: '#FFF3B3',
+                            yellowDark: '#F4D35E',
+                            cream: '#FFFDF9',
+                            text: '#4A2E3E',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        body { background-color: #FFFDF9; color: #4A2E3E; }
+    </style>
+</head>
+<body class="min-h-full flex flex-col font-sans antialiased selection:bg-pastel-pink/30 selection:text-pastel-text">
+
+    <!-- Encabezado con Logo y Nombre -->
+    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-30 border-b border-pastel-pink/20 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
+            
+            <!-- Logo y Marca -->
+            <div class="flex items-center space-x-3 sm:space-x-4">
+                <div class="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-pastel-pinkLight p-1 border-2 border-pastel-yellow shadow-sm flex items-center justify-center overflow-hidden flex-shrink-0">
+                    <img src="Creaciones.png" alt="Creaciones Personalizadas Logo" onerror="this.src='https://placehold.co/200x200/FFA3D7/4A2E3E?text=CP'" class="w-full h-full object-contain">
+                </div>
+                <div>
+                    <h1 class="font-brand font-bold text-xl sm:text-2xl text-pastel-text tracking-tight">Creaciones Personalizadas</h1>
+                    <p class="text-xs sm:text-sm text-pink-600 font-semibold flex items-center">
+                        <i class="fa-solid fa-heart text-xs mr-1"></i> Detalles únicos hechos con amor
+                    </p>
+                </div>
+            </div>
+
+            <!-- Botón Carrito de Compras -->
+            <div class="flex items-center space-x-2 sm:space-x-3">
+                <button onclick="toggleCartModal()" class="relative bg-pastel-pink text-white px-4 py-2.5 rounded-2xl font-bold text-sm shadow-md hover:bg-pastel-pinkDark transition-all flex items-center space-x-2">
+                    <i class="fa-solid fa-basket-shopping text-base"></i>
+                    <span class="hidden sm:inline">Mi Pedido</span>
+                    <span id="cartCountBadge" class="bg-pastel-yellow text-pastel-text text-xs px-2 py-0.5 rounded-full font-bold">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Banner de Bienvenida -->
+    <section class="bg-gradient-to-b from-pastel-pinkLight via-pastel-yellow/20 to-pastel-cream py-8 sm:py-12 px-4 border-b border-pastel-pink/10">
+        <div class="max-w-4xl mx-auto text-center">
+            <span class="inline-block px-3.5 py-1 rounded-full text-xs font-bold bg-pastel-yellow text-stone-800 mb-3 shadow-sm uppercase tracking-wider">
+                ✨ Catálogo Interactivo
+            </span>
+            <h2 class="font-brand text-2xl sm:text-4xl font-extrabold text-pastel-text mb-3">
+                Elige tus productos y arma tu pedido
+            </h2>
+            <p class="text-stone-700 text-sm sm:text-base max-w-xl mx-auto mb-6 font-medium leading-relaxed">
+                Agrega lo que te guste al carrito, calcula el total estimado de tu compra y envíanos tu lista directamente por WhatsApp para coordinar los detalles.
+            </p>
+
+            <!-- Buscador en tiempo real -->
+            <div class="relative max-w-md mx-auto">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-pastel-pinkDark text-base"></i>
+                <input type="text" id="searchInput" oninput="filterProducts()" placeholder="Buscar bolsitas, cajitas, milkbox..." class="w-full pl-11 pr-4 py-3.5 bg-white border border-pastel-pink/40 rounded-2xl text-sm font-medium text-stone-800 focus:outline-none focus:ring-2 focus:ring-pastel-pink focus:border-transparent shadow-sm">
+            </div>
+        </div>
+    </section>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Filtro por Categorías -->
+        <div class="flex items-center justify-start sm:justify-center overflow-x-auto pb-4 mb-8 space-x-2 no-scrollbar" id="categoryTabs">
+            <button onclick="setCategory('todos')" class="category-btn active px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-pastel-text text-white shadow-sm">Todos los productos</button>
+            <button onclick="setCategory('Bolsitas y Cajitas')" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-white text-pastel-text hover:bg-pastel-pinkLight border border-pastel-pink/20">Bolsitas y Cajitas</button>
+            <button onclick="setCategory('Decoraciones')" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-white text-pastel-text hover:bg-pastel-pinkLight border border-pastel-pink/20">Decoraciones</button>
+            <button onclick="setCategory('Souvenirs y Recuerdos')" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-white text-pastel-text hover:bg-pastel-pinkLight border border-pastel-pink/20">Souvenirs y Recuerdos</button>
+            <button onclick="setCategory('Agendas y Cuadernos')" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-white text-pastel-text hover:bg-pastel-pinkLight border border-pastel-pink/20">Agendas y Cuadernos</button>
+            <button onclick="setCategory('Invitaciones Digitales')" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-white text-pastel-text hover:bg-pastel-pinkLight border border-pastel-pink/20">Invitaciones Digitales</button>
+            <button onclick="setCategory('Invitaciones Físicas')" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-white text-pastel-text hover:bg-pastel-pinkLight border border-pastel-pink/20">Invitaciones Físicas</button>
+        </div>
+
+        <!-- Grilla de Productos -->
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Carga dinámica -->
+        </div>
+
+        <!-- Estado vacío -->
+        <div id="emptyState" class="hidden text-center py-16">
+            <div class="w-16 h-16 bg-pastel-pinkLight rounded-full flex items-center justify-center mx-auto mb-3 text-pastel-pinkDark text-2xl">
+                <i class="fa-solid fa-face-sad-tear"></i>
+            </div>
+            <h3 class="font-brand font-bold text-lg text-pastel-text mb-1">No encontramos productos</h3>
+            <p class="text-sm text-stone-600">Prueba con otra búsqueda o cambia la categoría seleccionada.</p>
+        </div>
+    </main>
+
+    <!-- MODAL CARRITO DE COMPRAS -->
+    <div id="cartModal" class="fixed inset-0 z-50 bg-stone-900/40 backdrop-blur-sm hidden flex justify-end">
+        <div class="bg-white w-full max-w-md h-full shadow-2xl flex flex-col justify-between animate-in slide-in-from-right duration-300">
+            <!-- Header Carrito -->
+            <div class="p-5 bg-pastel-pinkLight border-b border-pastel-pink/20 flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-basket-shopping text-pastel-pinkDark text-lg"></i>
+                    <h3 class="font-brand font-bold text-lg text-pastel-text">Tu Pedido</h3>
+                </div>
+                <button onclick="toggleCartModal()" class="w-8 h-8 rounded-full bg-white text-stone-500 hover:text-stone-700 flex items-center justify-center shadow-sm">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Items Carrito -->
+            <div id="cartItemsList" class="p-5 flex-1 overflow-y-auto space-y-4">
+                <!-- Carga dinámica -->
+            </div>
+
+            <!-- Footer Carrito -->
+            <div class="p-5 bg-pastel-cream border-t border-pastel-pink/20 space-y-4">
+                <div class="flex justify-between items-center text-pastel-text">
+                    <span class="font-semibold text-base">Total Estimado:</span>
+                    <span id="cartTotalText" class="font-brand font-extrabold text-2xl text-pastel-pinkDark">$0</span>
+                </div>
+                <button onclick="sendWhatsAppOrder()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-4 rounded-2xl shadow-md transition-all flex items-center justify-center space-x-2 text-sm">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Confirmar Pedido por WhatsApp</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-stone-900 text-white px-4 py-3 rounded-2xl shadow-xl flex items-center space-x-2 text-sm font-semibold">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+        <span id="toastMessage">Producto agregado al pedido</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-pastel-pink/20 py-6 mt-12 text-center text-xs text-stone-600">
+        <p class="font-brand font-semibold text-pastel-text text-sm">Creaciones Personalizadas</p>
+        <p class="mt-1 text-xs sm:text-sm">Diseño e impresiones para tus momentos especiales.</p>
+    </footer>
+
+    <script>
+        const WHATSAPP_NUMBER = "5491137755653"; 
+
+        // TUS PRODUCTOS REALES DE CREACIONES PERSONALIZADAS
+        const defaultProducts = [
+            {
+                id: 1,
+                name: "Bolsitas 120gr",
+                category: "Bolsitas y Cajitas",
+                price: 750,
+                description: "Precio por unidad. Personalizamos el diseño con la temática que elijas. Medidas aproximadas: 16×9×4,5 cm. Elaboradas en papel fotográfico brillante de 120g.",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/299b06e5da27a9abaea9b22d57326177.png"
+            },
+            {
+                id: 2,
+                name: "Bolsitas 200gr",
+                category: "Bolsitas y Cajitas",
+                price: 850,
+                description: "Precio por unidad. Personalizamos el diseño con la temática que elijas. Medidas aproximadas: 16×9×4,5 cm. Elaboradas en papel fotográfico brillante de 200g.",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/ce44bb8ae97e5a0f2ae1512209c10593.jpg"
+            },
+            {
+                id: 3,
+                name: "Milkbox",
+                category: "Bolsitas y Cajitas",
+                price: 900,
+                description: "Precio por unidad. Personalizamos el diseño con la temática que elijas. Medidas aproximadas: 16x7x7cm. Elaboradas en papel fotográfico brillante de 200g.",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/e3ab3d1a2922b71c08d6bd5ef36ca27c.jpg"
+            },
+            {
+                id: 4,
+                name: "Cajita almohada",
+                category: "Bolsitas y Cajitas",
+                price: 900,
+                description: "Precio por unidad. Personalizamos el diseño con la temática que elijas. Medidas aproximadas: 16x11x3cm. Elaboradas en papel fotográfico brillante de 200g.",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/9dc456d5ef0cd30718548a955aa1ab1c.png"
+            },
+            {
+                id: 5,
+                name: "Pochocleras",
+                category: "Bolsitas y Cajitas",
+                price: 850,
+                description: "Precio por unidad. Personalizamos el diseño con la temática que elijas. Medidas aproximadas:13cm x 7cm. Elaboradas en papel fotográfico brillante de 200g.",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/031cd63edd6bbea29e49cfcb48409e73.jpg"
+            },
+            {
+                id: 6,
+                name: "Milkbox 3D",
+                category: "Bolsitas y Cajitas",
+                price: 1700,
+                description: "Precio por unidad. Personalizamos el diseño con la temática que elijas. Medidas aproximadas:16x7x7cm. incluyen broche decorado",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/bc73c0bdf76a9be7a5b2711e94589da9.jpg"
+            },
+            {
+                id: 7,
+                name: "Milkbox 3D GRANDE",
+                category: "Bolsitas y Cajitas",
+                price: 2500,
+                description: "Precio por unidad. Personalizamos el diseño con la temática que elijas. Medidas aproximadas:21cm alto x 9,5cm ancho, incluyen broche decorado",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/e73ff6c4a9e540a7c9f3a55af703b7e4.jpg"
+            },
+            {
+                id: 8,
+                name: "Caja valija redondeada",
+                category: "Bolsitas y Cajitas",
+                price: 2500,
+                description: "Precio por unidad. Personalizamos el diseño con la temática que elijas. medida: 11,5cm ancho x 12cm alto x 7cm profundidad",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/f4cf39763b47d53372a253fc386d36ee.jpg"
+            },
+            {
+                id: 9,
+                name: "Cartel de Bienvenida",
+                category: "Decoraciones",
+                price: 3000,
+                description: "Precio por unidad. Ideal para decorar la entrada",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/ac0914994a40c390d2ea03c6934e7121.jpg"
+            },
+            {
+                id: 10,
+                name: "Banderin fino",
+                category: "Decoraciones",
+                price: 350,
+                description: "Precio por cada letra, medida aprox 20x14cm papel foto fino 120gr",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/17419cef810d9454d543b4451da50e84.jpg"
+            },
+            {
+                id: 11,
+                name: "Banderin 200gr",
+                category: "Decoraciones",
+                price: 450,
+                description: "Precio por cada letra, medida aprox 20x14cm papel foto 200gr",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/61c12148e6a144c597da5d86a83534f0.jpg"
+            },
+            {
+                id: 12,
+                name: "Plancha de Stickers",
+                category: "Decoraciones",
+                price: 3000,
+                description: "Precio por plancha, sticker adhesivo tamaño A4",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/84ca2beaf74411c5ddff16e6164875f2.jpg"
+            },
+            {
+                id: 13,
+                name: "Topper de torta",
+                category: "Decoraciones",
+                price: 2000,
+                description: "Máximo 5 pinches, consultar precio por topper con más pinches",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/d46bac7ef2022a8cb07fad1ec3453a03.jpg"
+            },
+            {
+                id: 14,
+                name: "Topper de torta 3D",
+                category: "Decoraciones",
+                price: 3500,
+                description: "Topper 3d para torta, cualquier temática",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/dbedccea6cb5bd6574538245ba3dce58.jpg"
+            },
+            {
+                id: 15,
+                name: "Pinches",
+                category: "Decoraciones",
+                price: 250,
+                description: "Pinches largos para gomitas u otros, no incluye base",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/f5837a22eeeeabae89cd1017481b25c7.jpg"
+            },
+            {
+                id: 16,
+                name: "Foto Personalizada",
+                category: "Decoraciones",
+                price: 1000,
+                description: "Foto personalizada con tematica o diseño que quieras tamaño A4",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/11971e29b4d9759d6699e514411e22dc.jpg"
+            },
+            {
+                id: 17,
+                name: "Vasos trago largo",
+                category: "Decoraciones",
+                price: 700,
+                description: "precio por unidad, incluyen sticker personalizado",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/dbaad5878465a222e56380899511f8ef.jpg"
+            },
+            {
+                id: 18,
+                name: "Base para pinches",
+                category: "Decoraciones",
+                price: 2500,
+                description: "Telgopor decorado, entran hasta 20 pinches aprox, los pinches se venden por separado",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/8982926f6c07be918b0ed304af337925.jpg"
+            },
+            {
+                id: 19,
+                name: "Centro de mesa Hexagonal",
+                category: "Decoraciones",
+                price: 3000,
+                description: "Incluyen moño",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/6dd7b28533f1fb0a932d5e05dcdee67a.jpg"
+            },
+            {
+                id: 20,
+                name: "Trípticos",
+                category: "Decoraciones",
+                price: 1000,
+                description: "Ideal para centro de mesa, 18cm de alto aprox, 3 caras puede ir diseño + foto en cada cara o sólo diseño, a elección",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/45f335d50fed2251d66bcae39f3d4dd6.jpg"
+            },
+            {
+                id: 21,
+                name: "Número o Letra 3D 16cm",
+                category: "Decoraciones",
+                price: 4000,
+                description: "Precio por unidad, medida de alto aprox 16cm apliques en 3D",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/3377f8daa11846d42e1e4d428bcd5298.png"
+            },
+            {
+                id: 22,
+                name: "Número o Letra 3D 20cm",
+                category: "Decoraciones",
+                price: 5000,
+                description: "Precio por unidad, medida de alto aprox 20cm apliques en 3D",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/9b624a34843407919f5f4631f00f8f30.png"
+            },
+            {
+                id: 23,
+                name: "Servilleteros",
+                category: "Decoraciones",
+                price: 850,
+                description: "Papel fotográfico 200gr",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/1388fad6ee43e4a8c39d8fd891f12b63.png"
+            },
+            {
+                id: 24,
+                name: "Llavero personalizado",
+                category: "Souvenirs y Recuerdos",
+                price: 1800,
+                description: "Precio por unidad, Llavero acrílico foto y/o diseño en ambas caras, viene cerrado en bolsita cada uno.",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/49de9e3282a1e2c1a072ffca01057658.jpg"
+            },
+            {
+                id: 25,
+                name: "Anotadores",
+                category: "Souvenirs y Recuerdos",
+                price: 1200,
+                description: "Precio por unidad Tapa y contratapa papel foto personalizadas, medida: 10x14cm incluye 20 hojas lisas",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/194b3590629367142077b2c6ee538245.png"
+            },
+            {
+                id: 26,
+                name: "Foto Polaroid",
+                category: "Souvenirs y Recuerdos",
+                price: 650,
+                description: "Precio por unidad, Medida 10x7cm Marco personalizado, barra de imán atras, viene cerrado en bolsita",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/bbec18fa84d82239fb1eba9545098ab4.png"
+            },
+            {
+                id: 27,
+                name: "Mini librito para colorear",
+                category: "Souvenirs y Recuerdos",
+                price: 450,
+                description: "Medida 10x7cm Papel obra (común) diseño personalizado",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/fc401f4bea32634128f85e0d78f9aecf.jpg"
+            },
+            {
+                id: 28,
+                name: "Souvenir 3 Lados",
+                category: "Souvenirs y Recuerdos",
+                price: 400,
+                description: "Frente personalizado Tateti y Laberinto a los lados y dentro 3 imágenes para colorear, medida abierto: 28x10cm aprox, cerrado en bolsita, papel obra (común)",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/32b0ae2fe8ff84a8190d6bcd543a3daf.jpg"
+            },
+            {
+                id: 29,
+                name: "Rollo para colorear",
+                category: "Souvenirs y Recuerdos",
+                price: 300,
+                description: "Hoja para colorear tamaño A4, puede incluir 1 o más imágenes, simple faz, papel obra, incluye porta rollo",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/f1e5e2a57f12e30ecdf32ddec9da9891.jpg"
+            },
+            {
+                id: 30,
+                name: "Libro de Firmas",
+                category: "Souvenirs y Recuerdos",
+                price: 15000,
+                description: "Tamaño A4, tapa transparente + tapas en papel foto personalizadas, 10 páginas en papel foto de 200gr (pueden incluir fotos más espacio para firmas)",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/39071db6d3df2980e99d9f736f934e96.png"
+            },
+            {
+                id: 31,
+                name: "Agenda o Cuaderno Personalizado",
+                category: "Agendas y Cuadernos",
+                price: 20000,
+                description: "Tamaño A5 Tapa dura personalizada, espiralado plástico, interior hasta 100 hojas (Rayado, liso o notas, si buscas un interior especial informanos)",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/dfaec324fde9183811763f90733d0168.jpg"
+            },
+            {
+                id: 32,
+                name: "Invitación imagen",
+                category: "Invitaciones Digitales",
+                price: 3000,
+                description: "Cualquier temática diseño a tu gusto",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/54b5fa49804a381310a577b6bc0f8962.png"
+            },
+            {
+                id: 33,
+                name: "Video invitación",
+                category: "Invitaciones Digitales",
+                price: 7000,
+                description: "El precio varía según el diseño, consulta por tu temática y tipo de video que buscas para confirmar el valor del mismo antes de comenzar",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/dd6b863e6c0ac6746f45c36c68eb4f46.png"
+            },
+            {
+                id: 34,
+                name: "Invitacion PDF interactiva",
+                category: "Invitaciones Digitales",
+                price: 5000,
+                description: "Formato .PDF , incluye botón a WhatsApp para confirmar asistencia y Google maps para la ubicación",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/debd330fbd9c6d661eeed00d6989c6a6.png"
+            },
+            {
+                id: 35,
+                name: "Invitacion Web",
+                category: "Invitaciones Digitales",
+                price: 23000,
+                description: "Desde 23.000 Modelos disponibles desde $27.000 diseño personalizado, pedime el catálogo e indícame para que evento buscabas",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/4753fd101d8f9a6ca73952e6a7f31df9.png"
+            },
+            {
+                id: 36,
+                name: "Invitación Impresa",
+                category: "Invitaciones Físicas",
+                price: 400,
+                description: "Precio por unidad, 10x14cm papel foto 200gr, cualquier temática y/o evento",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/85a350e25de9d50fc74bfe8d0fc0643b.png"
+            },
+            {
+                id: 37,
+                name: "Invitación interactiva con sugerencia de Regalos",
+                category: "Invitaciones Digitales",
+                price: 7000,
+                description: "Cualquier temática, incluye botón a WhatsApp, Google maps y una página extra de sugerencia de Regalos",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/f0a8106c8e0b71610e65ebe697b3cb00.png"
+            },
+            {
+                id: 38,
+                name: "Bobbie Goods",
+                category: "Agendas y Cuadernos",
+                price: 20000,
+                description: "Cuaderno para colorear tamaño A5, 80 páginas",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/f14d11efd59fe52568512b8aa1cac758.png"
+            }
+        ];
+
+        let products = defaultProducts;
+        let cart = JSON.parse(localStorage.getItem('cp_cart')) || [];
+        let currentCategory = 'todos';
+
+        function saveCart() {
+            localStorage.setItem('cp_cart', JSON.stringify(cart));
+            updateCartBadge();
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            const emptyState = document.getElementById('emptyState');
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+            grid.innerHTML = '';
+
+            const filtered = products.filter(p => {
+                const matchesCategory = currentCategory === 'todos' || p.category === currentCategory;
+                const matchesSearch = p.name.toLowerCase().includes(searchTerm) || p.description.toLowerCase().includes(searchTerm);
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            filtered.forEach(p => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-3xl border border-pastel-pink/20 overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col group";
+                
+                const img = p.image && p.image.trim() !== '' ? p.image : `https://placehold.co/600x600/FFF0F7/4A2E3E?text=${encodeURIComponent(p.name)}`;
+
+                card.innerHTML = `
+                    <div class="relative aspect-square bg-pastel-pinkLight overflow-hidden">
+                        <img src="${img}" alt="${escapeHtml(p.name)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <span class="absolute top-3 left-3 bg-white/95 backdrop-blur-sm text-pastel-text text-xs font-bold px-3 py-1 rounded-full shadow-sm border border-pastel-pink/30">
+                            ${p.category}
+                        </span>
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <h3 class="font-brand font-bold text-pastel-text text-lg mb-2 leading-snug">${escapeHtml(p.name)}</h3>
+                        <p class="text-sm text-stone-700 mb-4 leading-relaxed flex-1 font-medium">${escapeHtml(p.description || '')}</p>
+                        
+                        <!-- SELECTOR DE CANTIDAD Y BOTÓN AGREGAR -->
+                        <div class="pt-3 border-t border-pastel-pink/15 flex flex-col space-y-3 mt-auto">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-xs text-stone-500 block font-bold uppercase tracking-wider">Precio</span>
+                                    <span class="font-brand font-extrabold text-xl text-pastel-pinkDark">$${Number(p.price).toLocaleString('es-AR')}</span>
+                                </div>
+                                <!-- Selector de cantidad por tarjeta -->
+                                <div class="flex items-center bg-pastel-pinkLight rounded-xl border border-pastel-pink/30">
+                                    <button onclick="changeCardQty(${p.id}, -1)" class="w-8 h-8 flex items-center justify-center font-bold text-pastel-pinkDark hover:bg-pastel-pink/20 rounded-l-xl text-base">-</button>
+                                    <input type="number" id="qty-${p.id}" value="1" min="1" class="w-10 text-center bg-transparent font-bold text-pastel-text text-sm focus:outline-none">
+                                    <button onclick="changeCardQty(${p.id}, 1)" class="w-8 h-8 flex items-center justify-center font-bold text-pastel-pinkDark hover:bg-pastel-pink/20 rounded-r-xl text-base">+</button>
+                                </div>
+                            </div>
+                            <button onclick="addCustomQtyToCart(${p.id})" class="w-full bg-pastel-yellow hover:bg-pastel-yellowDark text-pastel-text font-bold text-sm py-3 rounded-xl transition-all shadow-sm flex items-center justify-center space-x-2">
+                                <i class="fa-solid fa-basket-shopping text-sm"></i>
+                                <span>Agregar al Pedido</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // FUNCIONES DE CANTIDAD EN TARJETA
+        function changeCardQty(id, delta) {
+            const input = document.getElementById(`qty-${id}`);
+            if (!input) return;
+            let current = parseInt(input.value) || 1;
+            current += delta;
+            if (current < 1) current = 1;
+            input.value = current;
+        }
+
+        function addCustomQtyToCart(id) {
+            const prod = products.find(p => p.id === id);
+            if (!prod) return;
+
+            const input = document.getElementById(`qty-${id}`);
+            const quantityToAdd = input ? parseInt(input.value) || 1 : 1;
+
+            const itemInCart = cart.find(item => item.id === id);
+            if (itemInCart) {
+                itemInCart.quantity += quantityToAdd;
+            } else {
+                cart.push({ ...prod, quantity: quantityToAdd });
+            }
+
+            saveCart();
+            showToast(`¡Agregado ${quantityToAdd} u. de ${prod.name}!`);
+            
+            if(input) input.value = 1;
+        }
+
+        function setCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                const btnText = btn.textContent.trim();
+                if((cat === 'todos' && btnText === 'Todos los productos') || btnText === cat) {
+                    btn.className = "category-btn active px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-pastel-text text-white shadow-sm";
+                } else {
+                    btn.className = "category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-white text-pastel-text hover:bg-pastel-pinkLight border border-pastel-pink/20";
+                }
+            });
+            renderProducts();
+        }
+
+        function filterProducts() {
+            renderProducts();
+        }
+
+        function updateQuantity(id, delta) {
+            const item = cart.find(i => i.id === id);
+            if (!item) return;
+
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.id !== id);
+            }
+            saveCart();
+            renderCartItems();
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(i => i.id !== id);
+            saveCart();
+            renderCartItems();
+        }
+
+        function updateCartBadge() {
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCountBadge').textContent = totalCount;
+        }
+
+        function toggleCartModal() {
+            const modal = document.getElementById('cartModal');
+            modal.classList.toggle('hidden');
+            if (!modal.classList.contains('hidden')) {
+                renderCartItems();
+            }
+        }
+
+        function renderCartItems() {
+            const container = document.getElementById('cartItemsList');
+            const totalText = document.getElementById('cartTotalText');
+            container.innerHTML = '';
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-stone-500">
+                        <i class="fa-solid fa-basket-shopping text-4xl mb-3 text-pastel-pink/60"></i>
+                        <p class="text-sm font-medium">Tu pedido está vacío.</p>
+                    </div>
+                `;
+                totalText.textContent = '$0';
+                return;
+            }
+
+            let total = 0;
+
+            cart.forEach(item => {
+                const subtotal = item.price * item.quantity;
+                total += subtotal;
+
+                const row = document.createElement('div');
+                row.className = "flex items-center justify-between p-3.5 bg-white rounded-2xl border border-pastel-pink/20 shadow-sm text-sm";
+                row.innerHTML = `
+                    <div class="flex-1 pr-2">
+                        <h4 class="font-bold text-pastel-text text-sm">${escapeHtml(item.name)}</h4>
+                        <span class="text-stone-500 text-xs font-semibold">$${Number(item.price).toLocaleString('es-AR')} c/u</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <div class="flex items-center bg-pastel-pinkLight rounded-xl border border-pastel-pink/30">
+                            <button onclick="updateQuantity(${item.id}, -1)" class="w-7 h-7 flex items-center justify-center font-bold text-pastel-pinkDark hover:bg-pastel-pink/20 rounded-l-xl text-sm">-</button>
+                            <span class="px-2.5 font-bold text-pastel-text text-sm">${item.quantity}</span>
+                            <button onclick="updateQuantity(${item.id}, 1)" class="w-7 h-7 flex items-center justify-center font-bold text-pastel-pinkDark hover:bg-pastel-pink/20 rounded-r-xl text-sm">+</button>
+                        </div>
+                        <span class="font-brand font-bold text-pastel-pinkDark w-20 text-right text-sm">$${Number(subtotal).toLocaleString('es-AR')}</span>
+                        <button onclick="removeFromCart(${item.id})" class="text-stone-400 hover:text-red-500 p-1.5">
+                            <i class="fa-solid fa-trash-can text-sm"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+
+            totalText.textContent = `$${Number(total).toLocaleString('es-AR')}`;
+        }
+
+        function sendWhatsAppOrder() {
+            if (cart.length === 0) {
+                alert("Agrega al menos un producto al pedido para continuar.");
+                return;
+            }
+
+            let message = `¡Hola Creaciones Personalizadas! Quisiera consultar/hacer el siguiente pedido:\n\n`;
+            
+            let total = 0;
+            cart.forEach((item) => {
+                const subtotal = item.price * item.quantity;
+                total += subtotal;
+                message += `- ${item.name} (Cantidad: ${item.quantity}) - $${item.price.toLocaleString('es-AR')} c/u - Subtotal: $${subtotal.toLocaleString('es-AR')}\n`;
+            });
+
+            message += `\nTotal del pedido: $${total.toLocaleString('es-AR')}`;
+
+            const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 2500);
+        }
+
+        function escapeHtml(text) {
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+            return text ? text.replace(/[&<>"']/g, m => map[m]) : '';
+        }
+
+        window.onload = function() {
+            renderProducts();
+            updateCartBadge();
+        };
+    </script>
+</body>
+</html>
