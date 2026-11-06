@@ -86,15 +86,16 @@
             <!-- Buscador en tiempo real -->
             <div class="relative max-w-md mx-auto">
                 <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-pastel-pinkDark text-base"></i>
-                <input type="text" id="searchInput" oninput="filterProducts()" placeholder="Buscar bolsitas, cajitas, milkbox..." class="w-full pl-11 pr-4 py-3.5 bg-white border border-pastel-pink/40 rounded-2xl text-sm font-medium text-stone-800 focus:outline-none focus:ring-2 focus:ring-pastel-pink focus:border-transparent shadow-sm">
+                <input type="text" id="searchInput" oninput="filterProducts()" placeholder="Buscar combos, bolsitas, cajitas..." class="w-full pl-11 pr-4 py-3.5 bg-white border border-pastel-pink/40 rounded-2xl text-sm font-medium text-stone-800 focus:outline-none focus:ring-2 focus:ring-pastel-pink focus:border-transparent shadow-sm">
             </div>
         </div>
     </section>
 
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Filtro por Categorías -->
+        <!-- Filtro por Categorías (Combos en primer lugar) -->
         <div class="flex items-center justify-start sm:justify-center overflow-x-auto pb-4 mb-8 space-x-2 no-scrollbar" id="categoryTabs">
             <button onclick="setCategory('todos')" class="category-btn active px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-pastel-text text-white shadow-sm">Todos los productos</button>
+            <button onclick="setCategory('Combos')" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-white text-pastel-text hover:bg-pastel-pinkLight border border-pastel-pink/20">🎁 Combos</button>
             <button onclick="setCategory('Bolsitas y Cajitas')" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-white text-pastel-text hover:bg-pastel-pinkLight border border-pastel-pink/20">Bolsitas y Cajitas</button>
             <button onclick="setCategory('Decoraciones')" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-white text-pastel-text hover:bg-pastel-pinkLight border border-pastel-pink/20">Decoraciones</button>
             <button onclick="setCategory('Souvenirs y Recuerdos')" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-white text-pastel-text hover:bg-pastel-pinkLight border border-pastel-pink/20">Souvenirs y Recuerdos</button>
@@ -166,10 +167,26 @@
     <script>
         const WHATSAPP_NUMBER = "5491137755653"; 
 
-        // TUS PRODUCTOS REALES DE CREACIONES PERSONALIZADAS
+        // TUS PRODUCTOS (COMBOS AL INICIO DE LA LISTA)[cite: 1]
         const defaultProducts = [
             {
                 id: 1,
+                name: "Combo Golosineros (10 chicos)",
+                category: "Combos",
+                price: 12000,
+                description: "Incluye: 10 bolsitas 120g + 10 libritos para colorear. Totalmente personalizado con la temática que elijas.",
+                image: "https://placehold.co/600x600/FFA3D7/4A2E3E?text=Combo+Golosineros"
+            },
+            {
+                id: 2,
+                name: "Combo Deco Fiesta completo",
+                category: "Combos",
+                price: 15000,
+                description: "Incluye: 1 Cartel de bienvenida + 1 Banderín con nombre (hasta 8 letras) + 1 Topper para torta + 1 Plancha de stickers.",
+                image: "https://placehold.co/600x600/FFA3D7/4A2E3E?text=Combo+Deco+Fiesta"
+            },
+            {
+                id: 3,
                 name: "Bolsitas 120gr",
                 category: "Bolsitas y Cajitas",
                 price: 750,
@@ -177,7 +194,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/299b06e5da27a9abaea9b22d57326177.png"
             },
             {
-                id: 2,
+                id: 4,
                 name: "Bolsitas 200gr",
                 category: "Bolsitas y Cajitas",
                 price: 850,
@@ -185,7 +202,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/ce44bb8ae97e5a0f2ae1512209c10593.jpg"
             },
             {
-                id: 3,
+                id: 5,
                 name: "Milkbox",
                 category: "Bolsitas y Cajitas",
                 price: 900,
@@ -193,7 +210,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/e3ab3d1a2922b71c08d6bd5ef36ca27c.jpg"
             },
             {
-                id: 4,
+                id: 6,
                 name: "Cajita almohada",
                 category: "Bolsitas y Cajitas",
                 price: 900,
@@ -201,7 +218,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/14ce4691a44414a3ef362664da6f833d.png"
             },
             {
-                id: 5,
+                id: 7,
                 name: "Pochocleras",
                 category: "Bolsitas y Cajitas",
                 price: 850,
@@ -209,7 +226,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/031cd63edd6bbea29e49cfcb48409e73.jpg"
             },
             {
-                id: 6,
+                id: 8,
                 name: "Milkbox 3D",
                 category: "Bolsitas y Cajitas",
                 price: 1700,
@@ -217,7 +234,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/bc73c0bdf76a9be7a5b2711e94589da9.jpg"
             },
             {
-                id: 7,
+                id: 9,
                 name: "Milkbox 3D GRANDE",
                 category: "Bolsitas y Cajitas",
                 price: 2500,
@@ -225,7 +242,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/e73ff6c4a9e540a7c9f3a55af703b7e4.jpg"
             },
             {
-                id: 8,
+                id: 10,
                 name: "Caja valija redondeada",
                 category: "Bolsitas y Cajitas",
                 price: 2500,
@@ -233,7 +250,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/f4cf39763b47d53372a253fc386d36ee.jpg"
             },
             {
-                id: 9,
+                id: 11,
                 name: "Cartel de Bienvenida",
                 category: "Decoraciones",
                 price: 3000,
@@ -241,7 +258,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/ac0914994a40c390d2ea03c6934e7121.jpg"
             },
             {
-                id: 10,
+                id: 12,
                 name: "Banderin fino",
                 category: "Decoraciones",
                 price: 350,
@@ -249,7 +266,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/17419cef810d9454d543b4451da50e84.jpg"
             },
             {
-                id: 11,
+                id: 13,
                 name: "Banderin 200gr",
                 category: "Decoraciones",
                 price: 450,
@@ -257,7 +274,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/61c12148e6a144c597da5d86a83534f0.jpg"
             },
             {
-                id: 12,
+                id: 14,
                 name: "Plancha de Stickers",
                 category: "Decoraciones",
                 price: 3000,
@@ -265,7 +282,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/84ca2beaf74411c5ddff16e6164875f2.jpg"
             },
             {
-                id: 13,
+                id: 15,
                 name: "Topper de torta",
                 category: "Decoraciones",
                 price: 2000,
@@ -273,7 +290,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/d46bac7ef2022a8cb07fad1ec3453a03.jpg"
             },
             {
-                id: 14,
+                id: 16,
                 name: "Topper de torta 3D",
                 category: "Decoraciones",
                 price: 3500,
@@ -281,7 +298,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/dbedccea6cb5bd6574538245ba3dce58.jpg"
             },
             {
-                id: 15,
+                id: 17,
                 name: "Pinches",
                 category: "Decoraciones",
                 price: 250,
@@ -289,7 +306,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/f5837a22eeeeabae89cd1017481b25c7.jpg"
             },
             {
-                id: 16,
+                id: 18,
                 name: "Foto Personalizada",
                 category: "Decoraciones",
                 price: 1000,
@@ -297,7 +314,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/11971e29b4d9759d6699e514411e22dc.jpg"
             },
             {
-                id: 17,
+                id: 19,
                 name: "Vasos trago largo",
                 category: "Decoraciones",
                 price: 700,
@@ -305,7 +322,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/dbaad5878465a222e56380899511f8ef.jpg"
             },
             {
-                id: 18,
+                id: 20,
                 name: "Base para pinches",
                 category: "Decoraciones",
                 price: 2500,
@@ -313,7 +330,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/8982926f6c07be918b0ed304af337925.jpg"
             },
             {
-                id: 19,
+                id: 21,
                 name: "Centro de mesa Hexagonal",
                 category: "Decoraciones",
                 price: 3000,
@@ -321,7 +338,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/6dd7b28533f1fb0a932d5e05dcdee67a.jpg"
             },
             {
-                id: 20,
+                id: 22,
                 name: "Trípticos",
                 category: "Decoraciones",
                 price: 1000,
@@ -329,7 +346,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/45f335d50fed2251d66bcae39f3d4dd6.jpg"
             },
             {
-                id: 21,
+                id: 23,
                 name: "Número o Letra 3D 16cm",
                 category: "Decoraciones",
                 price: 4000,
@@ -337,7 +354,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/3377f8daa11846d42e1e4d428bcd5298.png"
             },
             {
-                id: 22,
+                id: 24,
                 name: "Número o Letra 3D 20cm",
                 category: "Decoraciones",
                 price: 5000,
@@ -345,7 +362,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/9b624a34843407919f5f4631f00f8f30.png"
             },
             {
-                id: 23,
+                id: 25,
                 name: "Servilleteros",
                 category: "Decoraciones",
                 price: 850,
@@ -353,7 +370,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/1388fad6ee43e4a8c39d8fd891f12b63.png"
             },
             {
-                id: 24,
+                id: 26,
                 name: "Llavero personalizado",
                 category: "Souvenirs y Recuerdos",
                 price: 1800,
@@ -361,7 +378,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/49de9e3282a1e2c1a072ffca01057658.jpg"
             },
             {
-                id: 25,
+                id: 27,
                 name: "Anotadores",
                 category: "Souvenirs y Recuerdos",
                 price: 1200,
@@ -369,7 +386,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/194b3590629367142077b2c6ee538245.png"
             },
             {
-                id: 26,
+                id: 28,
                 name: "Foto Polaroid",
                 category: "Souvenirs y Recuerdos",
                 price: 650,
@@ -377,7 +394,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/bbec18fa84d82239fb1eba9545098ab4.png"
             },
             {
-                id: 27,
+                id: 29,
                 name: "Mini librito para colorear",
                 category: "Souvenirs y Recuerdos",
                 price: 450,
@@ -385,7 +402,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/fc401f4bea32634128f85e0d78f9aecf.jpg"
             },
             {
-                id: 28,
+                id: 30,
                 name: "Souvenir 3 Lados",
                 category: "Souvenirs y Recuerdos",
                 price: 400,
@@ -393,7 +410,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/32b0ae2fe8ff84a8190d6bcd543a3daf.jpg"
             },
             {
-                id: 29,
+                id: 31,
                 name: "Rollo para colorear",
                 category: "Souvenirs y Recuerdos",
                 price: 300,
@@ -401,7 +418,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/f1e5e2a57f12e30ecdf32ddec9da9891.jpg"
             },
             {
-                id: 30,
+                id: 32,
                 name: "Libro de Firmas",
                 category: "Souvenirs y Recuerdos",
                 price: 15000,
@@ -409,7 +426,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/39071db6d3df2980e99d9f736f934e96.png"
             },
             {
-                id: 31,
+                id: 33,
                 name: "Agenda o Cuaderno Personalizado",
                 category: "Agendas y Cuadernos",
                 price: 20000,
@@ -417,7 +434,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/dfaec324fde9183811763f90733d0168.jpg"
             },
             {
-                id: 32,
+                id: 34,
                 name: "Invitación imagen",
                 category: "Invitaciones Digitales",
                 price: 3000,
@@ -425,7 +442,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/54b5fa49804a381310a577b6bc0f8962.png"
             },
             {
-                id: 33,
+                id: 35,
                 name: "Video invitación",
                 category: "Invitaciones Digitales",
                 price: 7000,
@@ -433,7 +450,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/dd6b863e6c0ac6746f45c36c68eb4f46.png"
             },
             {
-                id: 34,
+                id: 36,
                 name: "Invitacion PDF interactiva",
                 category: "Invitaciones Digitales",
                 price: 5000,
@@ -441,7 +458,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/debd330fbd9c6d661eeed00d6989c6a6.png"
             },
             {
-                id: 35,
+                id: 37,
                 name: "Invitacion Web",
                 category: "Invitaciones Digitales",
                 price: 23000,
@@ -449,7 +466,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/4753fd101d8f9a6ca73952e6a7f31df9.png"
             },
             {
-                id: 36,
+                id: 38,
                 name: "Invitación Impresa",
                 category: "Invitaciones Físicas",
                 price: 400,
@@ -457,7 +474,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/85a350e25de9d50fc74bfe8d0fc0643b.png"
             },
             {
-                id: 37,
+                id: 39,
                 name: "Invitación interactiva con sugerencia de Regalos",
                 category: "Invitaciones Digitales",
                 price: 7000,
@@ -465,7 +482,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/f0a8106c8e0b71610e65ebe697b3cb00.png"
             },
             {
-                id: 38,
+                id: 40,
                 name: "Bobbie Goods",
                 category: "Agendas y Cuadernos",
                 price: 20000,
@@ -473,7 +490,7 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/f14d11efd59fe52568512b8aa1cac758.png"
             },
             {
-                id: 39,
+                id: 41,
                 name: "Caja mochila chica",
                 category: "Bolsitas y Cajitas",
                 price: 1500,
@@ -481,12 +498,20 @@
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/70336f7febaae03f157748b84a4a3f11.png"
             },
             {
-                id: 40,
+                id: 42,
                 name: "Caja mochila grande",
                 category: "Bolsitas y Cajitas",
                 price: 3000,
                 description: "Precio por unidad. Personalizamos el diseño con la temática que elijas. papel foto 200gr",
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/70336f7febaae03f157748b84a4a3f11.png"
+            },
+            {
+                id: 43,
+                name: "Combo 1",
+                category: "Combos",
+                price: en imagen,
+                description: "Precio en imagen. Personalizamos el diseño con la temática que elijas",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/846d99176602a310f21f97f0d06d19f0.png"
             }
         ];
 
@@ -594,7 +619,7 @@
         function setCategory(cat) {
             currentCategory = cat;
             document.querySelectorAll('.category-btn').forEach(btn => {
-                const btnText = btn.textContent.trim();
+                const btnText = btn.textContent.replace('🎁 ', '').trim();
                 if((cat === 'todos' && btnText === 'Todos los productos') || btnText === cat) {
                     btn.className = "category-btn active px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-pastel-text text-white shadow-sm";
                 } else {
