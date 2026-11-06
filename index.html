@@ -168,6 +168,72 @@
         const WHATSAPP_NUMBER = "5491137755653"; 
 
         const defaultProducts = [
+            // --- 8 ESPACIOS DE COMBOS (ARRIBA DE TODO CON PRECIO 0) ---
+            {
+                id: 43,
+                name: "Combo 1",
+                category: "Combos",
+                price: 0,
+                description: "Descripción de tu combo 1.",
+                image: ""
+            },
+            {
+                id: 44,
+                name: "Combo 2",
+                category: "Combos",
+                price: 0,
+                description: "Descripción de tu combo 2.",
+                image: ""
+            },
+            {
+                id: 45,
+                name: "Combo 3",
+                category: "Combos",
+                price: 0,
+                description: "Descripción de tu combo 3.",
+                image: ""
+            },
+            {
+                id: 46,
+                name: "Combo 4",
+                category: "Combos",
+                price: 0,
+                description: "Descripción de tu combo 4.",
+                image: ""
+            },
+            {
+                id: 47,
+                name: "Combo 5",
+                category: "Combos",
+                price: 0,
+                description: "Descripción de tu combo 5.",
+                image: ""
+            },
+            {
+                id: 48,
+                name: "Combo 6",
+                category: "Combos",
+                price: 0,
+                description: "Descripción de tu combo 6.",
+                image: ""
+            },
+            {
+                id: 49,
+                name: "Combo 7",
+                category: "Combos",
+                price: 0,
+                description: "Descripción de tu combo 7.",
+                image: ""
+            },
+            {
+                id: 50,
+                name: "Combo 8",
+                category: "Combos",
+                price: 0,
+                description: "Descripción de tu combo 8.",
+                image: ""
+            },
+            // --- RESTO DE TUS PRODUCTOS ---
             {
                 id: 3,
                 name: "Bolsitas 120gr",
@@ -487,14 +553,6 @@
                 price: 3000,
                 description: "Precio por unidad. Personalizamos el diseño con la temática que elijas. papel foto 200gr",
                 image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/70336f7febaae03f157748b84a4a3f11.png"
-            },
-            {
-                id: 43,
-                name: "Combo 1",
-                category: "Combos",
-                price: 0,
-                description: "Precio en imagen. Personalizamos el diseño con la temática que elijas",
-                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/846d99176602a310f21f97f0d06d19f0.png"
             }
         ];
 
@@ -533,6 +591,9 @@
                 
                 const img = p.image && p.image.trim() !== '' ? p.image : `https://placehold.co/600x600/FFF0F7/4A2E3E?text=${encodeURIComponent(p.name)}`;
 
+                // SI EL PRECIO ES 0 MUESTRA "Precio en imagen", SINO MUESTRA EL VALOR EN PESOS
+                const priceDisplay = p.price > 0 ? '$' + Number(p.price).toLocaleString('es-AR') : 'Precio en imagen';
+
                 card.innerHTML = `
                     <div class="relative aspect-square bg-pastel-pinkLight overflow-hidden">
                         <img src="${img}" alt="${escapeHtml(p.name)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
@@ -549,7 +610,7 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <span class="text-xs text-stone-500 block font-bold uppercase tracking-wider">Precio</span>
-                                    <span class="font-brand font-extrabold text-xl text-pastel-pinkDark">$${Number(p.price).toLocaleString('es-AR')}</span>
+                                    <span class="font-brand font-extrabold text-base sm:text-lg text-pastel-pinkDark">${priceDisplay}</span>
                                 </div>
                                 <!-- Selector de cantidad por tarjeta -->
                                 <div class="flex items-center bg-pastel-pinkLight rounded-xl border border-pastel-pink/30">
@@ -671,10 +732,14 @@
 
                 const row = document.createElement('div');
                 row.className = "flex items-center justify-between p-3.5 bg-white rounded-2xl border border-pastel-pink/20 shadow-sm text-sm";
+                
+                // Si el precio es 0, en el carrito muestra "Precio en imagen"
+                const cartPriceDisplay = item.price > 0 ? '$' + Number(subtotal).toLocaleString('es-AR') : 'Precio en imagen';
+
                 row.innerHTML = `
                     <div class="flex-1 pr-2">
                         <h4 class="font-bold text-pastel-text text-sm">${escapeHtml(item.name)}</h4>
-                        <span class="text-stone-500 text-xs font-semibold">$${Number(item.price).toLocaleString('es-AR')} c/u</span>
+                        <span class="text-stone-500 text-xs font-semibold">${item.price > 0 ? '$' + Number(item.price).toLocaleString('es-AR') + ' c/u' : 'Consultar'}</span>
                     </div>
                     <div class="flex items-center space-x-2">
                         <div class="flex items-center bg-pastel-pinkLight rounded-xl border border-pastel-pink/30">
@@ -682,7 +747,7 @@
                             <span class="px-2.5 font-bold text-pastel-text text-sm">${item.quantity}</span>
                             <button onclick="updateQuantity(${item.id}, 1)" class="w-7 h-7 flex items-center justify-center font-bold text-pastel-pinkDark hover:bg-pastel-pink/20 rounded-r-xl text-sm">+</button>
                         </div>
-                        <span class="font-brand font-bold text-pastel-pinkDark w-20 text-right text-sm">$${Number(subtotal).toLocaleString('es-AR')}</span>
+                        <span class="font-brand font-bold text-pastel-pinkDark w-24 text-right text-xs sm:text-sm">${cartPriceDisplay}</span>
                         <button onclick="removeFromCart(${item.id})" class="text-stone-400 hover:text-red-500 p-1.5">
                             <i class="fa-solid fa-trash-can text-sm"></i>
                         </button>
@@ -706,10 +771,11 @@
             cart.forEach((item) => {
                 const subtotal = item.price * item.quantity;
                 total += subtotal;
-                message += `- ${item.name} (Cantidad: ${item.quantity}) - $${item.price.toLocaleString('es-AR')} c/u - Subtotal: $${subtotal.toLocaleString('es-AR')}\n`;
+                const itemPriceText = item.price > 0 ? `$${subtotal.toLocaleString('es-AR')}` : 'Precio en imagen';
+                message += `- ${item.name} (Cantidad: ${item.quantity}) - Subtotal: ${itemPriceText}\n`;
             });
 
-            message += `\nTotal del pedido: $${total.toLocaleString('es-AR')}`;
+            message += `\nTotal estimado: $${total.toLocaleString('es-AR')}`;
 
             const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
             window.open(url, '_blank');
