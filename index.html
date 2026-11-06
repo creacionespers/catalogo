@@ -178,70 +178,134 @@
         const WHATSAPP_NUMBER = "5491137755653"; 
 
         const defaultProducts = [
-            // --- 8 ESPACIOS DE COMBOS (ARRIBA DE TODO CON PRECIO 0) ---
+            // --- 8 ESPACIOS DE COMBOS (CON OPCIONES PRECIO X OPCIÓN) ---
             {
                 id: 43,
                 name: "Combo 1",
                 category: "Combos",
-                price: 0,
-                description: "Precio en imágen. Personalizados de cualquier temática.",
-                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/846d99176602a310f21f97f0d06d19f0.png"
+                description: "Personalizados de cualquier temática.",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/846d99176602a310f21f97f0d06d19f0.png",
+                options: [
+                    { label: "x10", price: 16000 },
+                    { label: "x15", price: 20000 },
+                    { label: "x20", price: 23500 },
+                    { label: "x25", price: 30000 },
+                    { label: "x30", price: 33500 },
+                    { label: "x35", price: 37000 },
+                    { label: "x40", price: 40500 }
+                ]
             },
             {
                 id: 44,
                 name: "Combo 2",
                 category: "Combos",
-                price: 0,
-                description: "Precio en imágen. Personalizados de cualquier temática.",
-                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/b2053ee16bbbfc73ce1ad8caddc576cf.png"
+                description: "Personalizados de cualquier temática.",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/b2053ee16bbbfc73ce1ad8caddc576cf.png",
+                options: [
+                    { label: "x10", price: 16500 },
+                    { label: "x15", price: 20500 },
+                    { label: "x20", price: 24000 },
+                    { label: "x25", price: 30500 },
+                    { label: "x30", price: 34000 },
+                    { label: "x35", price: 37500 },
+                    { label: "x40", price: 41000 }
+                ]
             },
             {
                 id: 45,
                 name: "Combo 3",
                 category: "Combos",
-                price: 0,
-                description: "Precio en imágen. Personalizados de cualquier temática.",
-                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/26648df41d992cd92a6c9a1925fbdd48.png"
+                description: "Personalizados de cualquier temática.",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/26648df41d992cd92a6c9a1925fbdd48.png",
+                options: [
+                    { label: "x10", price: 19500 },
+                    { label: "x15", price: 23500 },
+                    { label: "x20", price: 27000 },
+                    { label: "x25", price: 33500 },
+                    { label: "x30", price: 37000 },
+                    { label: "x35", price: 40500 },
+                    { label: "x40", price: 44000 }
+                ]
             },
             {
                 id: 46,
                 name: "Combo 4",
                 category: "Combos",
-                price: 0,
-                description: "Precio en imágen. Personalizados de cualquier temática.",
-                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/cea2d210cda1b681344411c34e81c3b5.png"
+                description: "Personalizados de cualquier temática.",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/cea2d210cda1b681344411c34e81c3b5.png",
+                options: [
+                    { label: "x10", price: 24000 },
+                    { label: "x15", price: 30000 },
+                    { label: "x20", price: 35500 },
+                    { label: "x25", price: 46500 },
+                    { label: "x30", price: 52000 },
+                    { label: "x35", price: 57500 },
+                    { label: "x40", price: 63000 }
+                ]
             },
             {
                 id: 47,
                 name: "Combo 5",
                 category: "Combos",
-                price: 0,
-                description: "Precio en imágen. Personalizados de cualquier temática.",
-                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/ed89234df64d8e085c926150b7be310e.png"
+                description: "Personalizados de cualquier temática.",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/ed89234df64d8e085c926150b7be310e.png",
+                options: [
+                    { label: "x10", price: 32000 },
+                    { label: "x15", price: 41250 },
+                    { label: "x20", price: 50000 },
+                    { label: "x25", price: 64250 },
+                    { label: "x30", price: 73000 },
+                    { label: "x35", price: 81750 },
+                    { label: "x40", price: 90500 }
+                ]
             },
             {
                 id: 48,
                 name: "Combo 6",
                 category: "Combos",
-                price: 0,
-                description: "Precio en imágen. Personalizados de cualquier temática.",
-                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/52cbd6cd78bee5810a8b7bcf9fb94982.png"
+                description: "Personalizados de cualquier temática.",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/52cbd6cd78bee5810a8b7bcf9fb94982.png",
+                options: [
+                    { label: "x10", price: 31500 },
+                    { label: "x15", price: 37250 },
+                    { label: "x20", price: 42500 },
+                    { label: "x25", price: 53250 },
+                    { label: "x30", price: 58500 },
+                    { label: "x35", price: 63750 },
+                    { label: "x40", price: 68500 }
+                ]
             },
             {
                 id: 49,
                 name: "Combo 7",
                 category: "Combos",
-                price: 0,
-                description: "Precio en imágen. Personalizados de cualquier temática.",
-                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/23c1e5f1f803d13b1906d318d51d6a99.png"
+                description: "Personalizados de cualquier temática.",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/23c1e5f1f803d13b1906d318d51d6a99.png",
+                options: [
+                    { label: "x10", price: 28300 },
+                    { label: "x15", price: 32050 },
+                    { label: "x20", price: 35300 },
+                    { label: "x25", price: 41550 },
+                    { label: "x30", price: 44800 },
+                    { label: "x35", price: 48050 },
+                    { label: "x40", price: 51300 }
+                ]
             },
             {
                 id: 50,
                 name: "Combo 8",
                 category: "Combos",
-                price: 0,
-                description: "Precio en imágen. Personalizados de cualquier temática.",
-                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/3a57a492642448d0cf5b1ae7059554d5.png"
+                description: "Personalizados de cualquier temática.",
+                image: "https://creacionespersonalizadasarg.my.canva.site/fotos-catalogo/_assets/media/3a57a492642448d0cf5b1ae7059554d5.png",
+                options: [
+                    { label: "x10", price: 34800 },
+                    { label: "x15", price: 41800 },
+                    { label: "x20", price: 48300 },
+                    { label: "x25", price: 57800 },
+                    { label: "x30", price: 64300 },
+                    { label: "x35", price: 70800 },
+                    { label: "x40", price: 77300 }
+                ]
             },
             // --- RESTO DE PRODUCTOS ---
             {
@@ -575,6 +639,31 @@
             updateCartBadge();
         }
 
+        function getOptionPrice(product, optionLabel) {
+            if (product.options && Array.isArray(product.options)) {
+                const opt = product.options.find(o => o.label === optionLabel);
+                return opt ? opt.price : 0;
+            }
+            return product.price || 0;
+        }
+
+        function formatPriceText(price) {
+            return price > 0 ? '$' + Number(price).toLocaleString('es-AR') : 'Precio en imágen';
+        }
+
+        function updateComboCardPrice(id) {
+            const prod = products.find(p => p.id === id);
+            if (!prod) return;
+
+            const selectOpt = document.getElementById(`combo-opt-${id}`);
+            const priceSpan = document.getElementById(`price-display-${id}`);
+            
+            if (selectOpt && priceSpan) {
+                const price = getOptionPrice(prod, selectOpt.value);
+                priceSpan.textContent = formatPriceText(price);
+            }
+        }
+
         function renderProducts() {
             const grid = document.getElementById('productGrid');
             const emptyState = document.getElementById('emptyState');
@@ -601,8 +690,34 @@
                 
                 const img = p.image && p.image.trim() !== '' ? p.image : `https://placehold.co/600x600/FFF0F7/4A2E3E?text=${encodeURIComponent(p.name)}`;
 
-                // SI EL PRECIO ES 0 MUESTRA "Precio en imagen", SINO MUESTRA EL VALOR EN PESOS
-                const priceDisplay = p.price > 0 ? '$' + Number(p.price).toLocaleString('es-AR') : 'Precio en imagen';
+                let comboOptionsHtml = '';
+                let initialPriceDisplay = formatPriceText(p.price || 0);
+
+                if (p.category === 'Combos') {
+                    const opts = p.options || [
+                        { label: "x10", price: 0 },
+                        { label: "x15", price: 0 },
+                        { label: "x20", price: 0 },
+                        { label: "x25", price: 0 },
+                        { label: "x30", price: 0 },
+                        { label: "x35", price: 0 },
+                        { label: "x40", price: 0 }
+                    ];
+
+                    const defaultSelectedOpt = opts[0];
+                    initialPriceDisplay = formatPriceText(defaultSelectedOpt ? defaultSelectedOpt.price : 0);
+
+                    const optionsList = opts.map((o, idx) => `<option value="${o.label}" ${idx === 0 ? 'selected' : ''}>${o.label}</option>`).join('');
+
+                    comboOptionsHtml = `
+                        <div class="mb-3">
+                            <label class="block text-xs font-bold text-stone-600 mb-1">Seleccionar opción:</label>
+                            <select id="combo-opt-${p.id}" onchange="updateComboCardPrice(${p.id})" class="w-full bg-pastel-pinkLight border border-pastel-pink/40 rounded-xl p-2 text-xs font-bold text-pastel-text focus:outline-none focus:ring-2 focus:ring-pastel-pink">
+                                ${optionsList}
+                            </select>
+                        </div>
+                    `;
+                }
 
                 card.innerHTML = `
                     <div class="relative aspect-square bg-pastel-pinkLight overflow-hidden">
@@ -615,12 +730,15 @@
                         <h3 class="font-brand font-bold text-pastel-text text-lg mb-2 leading-snug">${escapeHtml(p.name)}</h3>
                         <p class="text-sm text-stone-700 mb-4 leading-relaxed flex-1 font-medium">${escapeHtml(p.description || '')}</p>
                         
+                        <!-- SELECTOR DE OPCIONES EXCLUSIVO PARA COMBOS -->
+                        ${comboOptionsHtml}
+
                         <!-- SELECTOR DE CANTIDAD Y BOTÓN AGREGAR -->
                         <div class="pt-3 border-t border-pastel-pink/15 flex flex-col space-y-3 mt-auto">
                             <div class="flex items-center justify-between">
                                 <div>
                                     <span class="text-xs text-stone-500 block font-bold uppercase tracking-wider">Precio</span>
-                                    <span class="font-brand font-extrabold text-base sm:text-lg text-pastel-pinkDark">${priceDisplay}</span>
+                                    <span id="price-display-${p.id}" class="font-brand font-extrabold text-base sm:text-lg text-pastel-pinkDark">${initialPriceDisplay}</span>
                                 </div>
                                 <!-- Selector de cantidad por tarjeta -->
                                 <div class="flex items-center bg-pastel-pinkLight rounded-xl border border-pastel-pink/30">
@@ -640,7 +758,6 @@
             });
         }
 
-        // FUNCIONES DE CANTIDAD EN TARJETA
         function changeCardQty(id, delta) {
             const input = document.getElementById(`qty-${id}`);
             if (!input) return;
@@ -657,15 +774,27 @@
             const input = document.getElementById(`qty-${id}`);
             const quantityToAdd = input ? parseInt(input.value) || 1 : 1;
 
-            const itemInCart = cart.find(item => item.id === id);
+            let selectedComboOption = '';
+            let itemPrice = prod.price || 0;
+
+            if (prod.category === 'Combos') {
+                const selectOpt = document.getElementById(`combo-opt-${id}`);
+                if (selectOpt) {
+                    selectedComboOption = selectOpt.value;
+                    itemPrice = getOptionPrice(prod, selectedComboOption);
+                }
+            }
+
+            const itemInCart = cart.find(item => item.id === id && item.comboOption === selectedComboOption);
+            
             if (itemInCart) {
                 itemInCart.quantity += quantityToAdd;
             } else {
-                cart.push({ ...prod, quantity: quantityToAdd });
+                cart.push({ ...prod, price: itemPrice, quantity: quantityToAdd, comboOption: selectedComboOption });
             }
 
             saveCart();
-            showToast(`¡Agregado ${quantityToAdd} u. de ${prod.name}!`);
+            showToast(`¡Agregado al pedido!`);
             
             if(input) input.value = 1;
         }
@@ -681,20 +810,19 @@
             renderProducts();
         }
 
-        function updateQuantity(id, delta) {
-            const item = cart.find(i => i.id === id);
-            if (!item) return;
+        function updateQuantity(cartIndex, delta) {
+            if (!cart[cartIndex]) return;
 
-            item.quantity += delta;
-            if (item.quantity <= 0) {
-                cart = cart.filter(i => i.id !== id);
+            cart[cartIndex].quantity += delta;
+            if (cart[cartIndex].quantity <= 0) {
+                cart.splice(cartIndex, 1);
             }
             saveCart();
             renderCartItems();
         }
 
-        function removeFromCart(id) {
-            cart = cart.filter(i => i.id !== id);
+        function removeFromCart(cartIndex) {
+            cart.splice(cartIndex, 1);
             saveCart();
             renderCartItems();
         }
@@ -730,28 +858,29 @@
 
             let total = 0;
 
-            cart.forEach(item => {
+            cart.forEach((item, index) => {
                 const subtotal = item.price * item.quantity;
                 total += subtotal;
 
                 const row = document.createElement('div');
                 row.className = "flex items-center justify-between p-3.5 bg-white rounded-2xl border border-pastel-pink/20 shadow-sm text-sm";
                 
-                const cartPriceDisplay = item.price > 0 ? '$' + Number(subtotal).toLocaleString('es-AR') : 'Precio en imagen';
+                const cartPriceDisplay = item.price > 0 ? '$' + Number(subtotal).toLocaleString('es-AR') : 'Precio en imágen';
+                const variantText = item.comboOption ? `(${item.comboOption})` : '';
 
                 row.innerHTML = `
                     <div class="flex-1 pr-2">
-                        <h4 class="font-bold text-pastel-text text-sm">${escapeHtml(item.name)}</h4>
+                        <h4 class="font-bold text-pastel-text text-sm">${escapeHtml(item.name)} <span class="text-pastel-pinkDark">${variantText}</span></h4>
                         <span class="text-stone-500 text-xs font-semibold">${item.price > 0 ? '$' + Number(item.price).toLocaleString('es-AR') + ' c/u' : 'Consultar'}</span>
                     </div>
                     <div class="flex items-center space-x-2">
                         <div class="flex items-center bg-pastel-pinkLight rounded-xl border border-pastel-pink/30">
-                            <button onclick="updateQuantity(${item.id}, -1)" class="w-7 h-7 flex items-center justify-center font-bold text-pastel-pinkDark hover:bg-pastel-pink/20 rounded-l-xl text-sm">-</button>
+                            <button onclick="updateQuantity(${index}, -1)" class="w-7 h-7 flex items-center justify-center font-bold text-pastel-pinkDark hover:bg-pastel-pink/20 rounded-l-xl text-sm">-</button>
                             <span class="px-2.5 font-bold text-pastel-text text-sm">${item.quantity}</span>
-                            <button onclick="updateQuantity(${item.id}, 1)" class="w-7 h-7 flex items-center justify-center font-bold text-pastel-pinkDark hover:bg-pastel-pink/20 rounded-r-xl text-sm">+</button>
+                            <button onclick="updateQuantity(${index}, 1)" class="w-7 h-7 flex items-center justify-center font-bold text-pastel-pinkDark hover:bg-pastel-pink/20 rounded-r-xl text-sm">+</button>
                         </div>
                         <span class="font-brand font-bold text-pastel-pinkDark w-24 text-right text-xs sm:text-sm">${cartPriceDisplay}</span>
-                        <button onclick="removeFromCart(${item.id})" class="text-stone-400 hover:text-red-500 p-1.5">
+                        <button onclick="removeFromCart(${index})" class="text-stone-400 hover:text-red-500 p-1.5">
                             <i class="fa-solid fa-trash-can text-sm"></i>
                         </button>
                     </div>
@@ -774,8 +903,9 @@
             cart.forEach((item) => {
                 const subtotal = item.price * item.quantity;
                 total += subtotal;
-                const itemPriceText = item.price > 0 ? `$${subtotal.toLocaleString('es-AR')}` : 'Precio en imagen';
-                message += `- ${item.name} (Cantidad: ${item.quantity}) - Subtotal: ${itemPriceText}\n`;
+                const itemPriceText = item.price > 0 ? `$${subtotal.toLocaleString('es-AR')}` : 'Precio en imágen';
+                const variantText = item.comboOption ? ` [Opción: ${item.comboOption}]` : '';
+                message += `- ${item.name}${variantText} (Cantidad: ${item.quantity}) - Subtotal: ${itemPriceText}\n`;
             });
 
             message += `\nTotal estimado: $${total.toLocaleString('es-AR')}`;
