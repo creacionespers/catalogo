@@ -92,16 +92,26 @@
     </section>
 
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Filtro por Categorías -->
-        <div class="flex items-center justify-start sm:justify-center overflow-x-auto pb-4 mb-8 space-x-2 no-scrollbar" id="categoryTabs">
-            <button onclick="setCategory('todos')" class="category-btn active px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-pastel-text text-white shadow-sm">Todos los productos</button>
-            <button onclick="setCategory('Combos')" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-white text-pastel-text hover:bg-pastel-pinkLight border border-pastel-pink/20">🎁 Combos</button>
-            <button onclick="setCategory('Bolsitas y Cajitas')" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-white text-pastel-text hover:bg-pastel-pinkLight border border-pastel-pink/20">Bolsitas y Cajitas</button>
-            <button onclick="setCategory('Decoraciones')" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-white text-pastel-text hover:bg-pastel-pinkLight border border-pastel-pink/20">Decoraciones</button>
-            <button onclick="setCategory('Souvenirs y Recuerdos')" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-white text-pastel-text hover:bg-pastel-pinkLight border border-pastel-pink/20">Souvenirs y Recuerdos</button>
-            <button onclick="setCategory('Agendas y Cuadernos')" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-white text-pastel-text hover:bg-pastel-pinkLight border border-pastel-pink/20">Agendas y Cuadernos</button>
-            <button onclick="setCategory('Invitaciones Digitales')" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-white text-pastel-text hover:bg-pastel-pinkLight border border-pastel-pink/20">Invitaciones Digitales</button>
-            <button onclick="setCategory('Invitaciones Físicas')" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-white text-pastel-text hover:bg-pastel-pinkLight border border-pastel-pink/20">Invitaciones Físicas</button>
+        <!-- Filtro por Categorías con Menú Desplegable -->
+        <div class="max-w-xs mx-auto mb-8">
+            <label for="categorySelect" class="block text-xs font-bold uppercase tracking-wider text-stone-500 mb-2 text-center">
+                <i class="fa-solid fa-filter text-pastel-pinkDark mr-1"></i> Filtrar por Categoría
+            </label>
+            <div class="relative">
+                <select id="categorySelect" onchange="setCategory(this.value)" class="w-full appearance-none bg-white border-2 border-pastel-pink/40 text-pastel-text font-bold text-sm sm:text-base py-3 pl-4 pr-10 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-pastel-pink focus:border-pastel-pink transition-all cursor-pointer">
+                    <option value="todos">✨ Todos los productos</option>
+                    <option value="Combos">🎁 Combos</option>
+                    <option value="Bolsitas y Cajitas">Bolsitas y Cajitas</option>
+                    <option value="Decoraciones">Decoraciones</option>
+                    <option value="Souvenirs y Recuerdos">Souvenirs y Recuerdos</option>
+                    <option value="Agendas y Cuadernos">Agendas y Cuadernos</option>
+                    <option value="Invitaciones Digitales">Invitaciones Digitales</option>
+                    <option value="Invitaciones Físicas">Invitaciones Físicas</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-pastel-pinkDark">
+                    <i class="fa-solid fa-chevron-down text-sm"></i>
+                </div>
+            </div>
         </div>
 
         <!-- Grilla de Productos -->
@@ -233,7 +243,7 @@
                 description: "Descripción de tu combo 8.",
                 image: ""
             },
-            // --- RESTO DE TUS PRODUCTOS ---
+            // --- RESTO DE PRODUCTOS ---
             {
                 id: 3,
                 name: "Bolsitas 120gr",
@@ -662,14 +672,8 @@
 
         function setCategory(cat) {
             currentCategory = cat;
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                const btnText = btn.textContent.replace('🎁 ', '').trim();
-                if((cat === 'todos' && btnText === 'Todos los productos') || btnText === cat) {
-                    btn.className = "category-btn active px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-pastel-text text-white shadow-sm";
-                } else {
-                    btn.className = "category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-white text-pastel-text hover:bg-pastel-pinkLight border border-pastel-pink/20";
-                }
-            });
+            const select = document.getElementById('categorySelect');
+            if (select) select.value = cat;
             renderProducts();
         }
 
@@ -733,7 +737,6 @@
                 const row = document.createElement('div');
                 row.className = "flex items-center justify-between p-3.5 bg-white rounded-2xl border border-pastel-pink/20 shadow-sm text-sm";
                 
-                // Si el precio es 0, en el carrito muestra "Precio en imagen"
                 const cartPriceDisplay = item.price > 0 ? '$' + Number(subtotal).toLocaleString('es-AR') : 'Precio en imagen';
 
                 row.innerHTML = `
